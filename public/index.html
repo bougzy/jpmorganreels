@@ -38,6 +38,8 @@
 
   <div class="hero_area">
 
+    
+
     <div class="hero_bg_box">
       <div class="bg_img_box">
         <img src="images/hero-bg.png" alt="">
@@ -88,6 +90,8 @@
         </nav>
       </div>
     </header>
+
+    
     <!-- end header section -->
     <!-- slider section -->
     <section class="slider_section ">
@@ -187,6 +191,14 @@
   </div>
 
 
+  <div class=" p-2 bg-info text-white" style="font-weight: 800;">
+    <div class="marquee">
+        <div class="marquee-content" id="cryptoMarquee">
+            <!-- Cryptocurrency data will be inserted here -->
+        </div>
+    </div>
+</div>
+
   <!-- service section -->
 
   <section class="service_section layout_padding">
@@ -273,6 +285,22 @@
 
   <!-- end service section -->
 
+  <div class=" mt-5 bg-info">
+    <div class="stats-container" style="background: #3ab5ca;">
+      <div class="stat-item">
+        <div id="totalSales">$0</div>
+        <div class="stat-label">Total Sales</div>
+      </div>
+      <div class="stat-item">
+        <div id="soldProperties">0</div>
+        <div class="stat-label">Sold Properties</div>
+      </div>
+      <div class="stat-item">
+        <div id="auctionRate">0%</div>
+        <div class="stat-label">Auction Clearance Rate</div>
+      </div>
+    </div>
+  </div>
 
   <!-- about section -->
 
@@ -295,7 +323,7 @@
         <div class="col-md-6">
           <div class="detail-box">
             <h3>
-              We Are Finexo
+              We Are JPMorganreels
             </h3>
             <p>
               There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
@@ -786,6 +814,88 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
   </script>
   <!-- End Google Map -->
+
+
+  
+<script>
+  const cryptocurrencies = [
+      { name: "Bitcoin", symbol: "BTC", exchange: "Binance", price: "0" },
+      { name: "Ethereum", symbol: "ETH", exchange: "Coinbase", price: "0" },
+      { name: "Ripple", symbol: "XRP", exchange: "Kraken", price: "0" },
+      { name: "Litecoin", symbol: "LTC", exchange: "Bittrex", price: "0" },
+      { name: "Cardano", symbol: "ADA", exchange: "Binance", price: "0" },
+      { name: "Polkadot", symbol: "DOT", exchange: "Huobi", price: "0" },
+      { name: "Chainlink", symbol: "LINK", exchange: "Binance", price: "0" },
+      { name: "Bitcoin Cash", symbol: "BCH", exchange: "Kraken", price: "0" },
+      { name: "Stellar", symbol: "XLM", exchange: "Coinbase", price: "0" },
+      { name: "Dogecoin", symbol: "DOGE", exchange: "Binance", price: "0" },
+      { name: "Solana", symbol: "SOL", exchange: "Coinbase", price: "0" },
+      { name: "Uniswap", symbol: "UNI", exchange: "Binance", price: "0" },
+      { name: "Ethereum Classic", symbol: "ETC", exchange: "Kraken", price: "0" },
+      { name: "Aave", symbol: "AAVE", exchange: "Binance", price: "0" },
+      { name: "Polygon", symbol: "MATIC", exchange: "Coinbase", price: "0" },
+      { name: "VeChain", symbol: "VET", exchange: "Bittrex", price: "0" }
+  ];
+
+  async function fetchCryptoPrices() {
+      // Fetching crypto prices from an API (replace this with your own API if needed)
+      const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,litecoin,cardano,polkadot,chainlink,bitcoin-cash,stellar,dogecoin,solana,uniswap,ethereum-classic,aave,polygon,vechain&vs_currencies=usd');
+      const data = await response.json();
+
+      // Update prices
+      cryptocurrencies.forEach(crypto => {
+          if (data[crypto.name.toLowerCase()]) {
+              crypto.price = data[crypto.name.toLowerCase()].usd.toFixed(2);
+          }
+      });
+
+      // Update marquee content
+      updateMarqueeContent();
+  }
+
+  function updateMarqueeContent() {
+      const marqueeContent = document.getElementById('cryptoMarquee');
+      marqueeContent.innerHTML = cryptocurrencies.map(crypto => {
+          return `<span class="mx-3">${crypto.name} (${crypto.symbol}) - $${crypto.price} on ${crypto.exchange}</span>`;
+      }).join('');
+  }
+
+  // Initial fetch and interval for updates
+  fetchCryptoPrices();
+  setInterval(fetchCryptoPrices, 60000); // Update every minute
+</script>
+
+<script>
+  // Function to animate counting up to a target value
+  function countUp(element, start, end, duration, isCurrency = false, isPercentage = false) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      let value = Math.floor(progress * (end - start) + start);
+      if (isCurrency) {
+        element.innerText = `$${value}k`; // Display as currency
+      } else if (isPercentage) {
+        element.innerText = `${value}%`; // Display as percentage
+      } else {
+        element.innerText = value;
+      }
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }
+
+  // Start the counters
+  document.addEventListener("DOMContentLoaded", () => {
+    countUp(document.getElementById("totalSales"), 0, 56, 2000, true); // Count to 56k
+    countUp(document.getElementById("soldProperties"), 0, 953, 2000);  // Count to 953
+    countUp(document.getElementById("auctionRate"), 0, 96, 2000, false, true); // Count to 96%
+  });
+</script>
+
+  <script>
 
 </body>
 
