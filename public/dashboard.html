@@ -11,8 +11,6 @@
             color: white;
             min-height: 100vh;
         }
-
-        /* Sidebar Styles */
         .sidebar {
             position: fixed;
             top: 0;
@@ -24,7 +22,6 @@
             z-index: 1000;
             transition: transform 0.3s ease;
         }
-
         .sidebar-item {
             padding: 15px 25px;
             color: white;
@@ -32,59 +29,49 @@
             display: block;
             transition: background 0.3s;
         }
-
         .sidebar-item:hover {
             background: #283593;
             color: white;
             text-decoration: none;
         }
-
         .sidebar-item.active {
             background: #3949ab;
         }
-
-        /* Main Content Styles */
         .main-content {
             margin-left: 250px;
             padding: 20px;
             padding-top: 60px;
         }
-
-        /* Navbar Styles */
         .navbar {
             position: fixed;
             width: 100%;
             z-index: 1001;
         }
-
-        /* Marquee styling */
         .marquee {
             width: 100%;
             overflow: hidden;
             white-space: nowrap;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #3949ab;
+            color: white;
+            padding: 10px 0;
+            font-size: 1rem;
+            text-align: center;
         }
-
         .marquee-content {
             display: inline-block;
             padding-left: 100%;
             animation: marquee 30s linear infinite;
         }
-
         @keyframes marquee {
             0% { transform: translate(0, 0); }
             100% { transform: translate(-100%, 0); }
         }
-
-        /* Dashboard card styles */
         .dashboard-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
         }
-
-        /* Toggle button */
         .toggle-btn {
             display: none;
             position: fixed;
@@ -97,7 +84,6 @@
             padding: 10px 15px;
             border-radius: 5px;
         }
-
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -109,17 +95,13 @@
                 display: block;
             }
         }
-
         .sidebar.active {
             transform: translateX(0);
         }
     </style>
 </head>
 <body>
-    <!-- Toggle Button -->
     <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">JPMorganreels</a>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -129,66 +111,309 @@
         </div>
     </nav>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <a href="#profile" class="sidebar-item active" data-content="profile">
-            Profile Overview
-        </a>
-        <a href="#crypto" class="sidebar-item" data-content="crypto">
-            Cryptocurrency Prices
-        </a>
-        <a href="#deposits" class="sidebar-item" data-content="deposits">
-            Deposits
-        </a>
-        <a href="#withdrawals" class="sidebar-item" data-content="withdrawals">
-            Withdrawals
-        </a>
-        <a href="#transactions" class="sidebar-item" data-content="transactions">
-            Transactions
-        </a>
+        <a href="#profile" class="sidebar-item active" data-content="profile">Profile Overview</a>
+        <a href="#crypto" class="sidebar-item" data-content="crypto">Cryptocurrency Prices</a>
+        <a href="#deposits" class="sidebar-item" data-content="deposits">Deposits</a>
+        <a href="#withdrawals" class="sidebar-item" data-content="withdrawals">Withdrawals</a>
+        <a href="#transactions" class="sidebar-item" data-content="transactions">Transactions</a>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Your existing content sections -->
+        <div class="marquee">
+            <div class="marquee-content" id="crypto-prices">
+                Loading cryptocurrency prices...
+            </div>
+        </div>
+
+        <div id="content-area">
+            <div id="profile" class="content-section">
+                <h1>Welcome to your Profile Overview</h1>
+                <div class="content-section container mt-4" id="profile-content">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card dashboard-card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Your Profile</h5>
+                                    <p class="card-text"><strong>Name:</strong> <span id="userName">John Doe</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card dashboard-card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Your Profile</h5>
+                                    <p class="card-text"><strong>Email:</strong> <span id="userEmail">john.doe@example.com</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card dashboard-card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Your Profile</h5>
+                                    <p class="card-text"><strong>Balance:</strong> $<span id="balance">1000.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="card dashboard-card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title">Your Profile</h5>
+                                    <p class="card-text"><strong>Total Profits:</strong> $<span id="profits">200.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="crypto" class="content-section" style="display: none;">
+                Cryptocurrency Prices will be shown here.
+            </div>
+
+            <div id="deposits" class="content-section" style="display: none;">
+                <h1>Manage your Deposits here.</h1>
+                <h4>Deposit Money</h4>
+                <form id="depositForm">
+                    <div class="form-group">
+                        <label for="plan">Select Investment Plan</label>
+                        <select class="form-control" id="plan" required>
+                            <option value="" disabled selected>Select a plan</option>
+                            <option value="Plan A">Plan A - 10% Return</option>
+                            <option value="Plan B">Plan B - 15% Return</option>
+                            <option value="Plan C">Plan C - 20% Return</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="walletAddress">Select Wallet Address</label>
+                        <select class="form-control" id="walletAddress" required>
+                            <option value="" disabled selected>Select a wallet address</option>
+                            <option value="wallet_address_1">Wallet Address 1</option>
+                            <option value="wallet_address_2">Wallet Address 2</option>
+                        </select>
+                        <button type="button" class="btn btn-outline-secondary fw-bolder bg-white text-primary mt-2" onclick="copyWalletAddress()">Copy Address</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="number" class="form-control" id="amount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="proof">Upload Proof of Payment</label>
+                        <input type="file" class="form-control-file" id="proof" name="proofOfPayment" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Deposit</button>
+                </form>
+            </div>
+
+            <div id="withdrawals" class="content-section" style="display: none;">
+                <h4>Withdraw Money</h4>
+                <form id="withdrawForm">
+                    <div class="form-group">
+                        <label for="withdrawAmount">Amount to Withdraw</label>
+                        <input type="number" class="form-control" id="withdrawAmount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="withdrawAddress">Wallet Address</label>
+                        <input type="text" class="form-control" id="withdrawAddress" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Request Withdrawal</button>
+                </form>
+                <h4>Your Withdrawal History</h4>
+                <table class="table table-bordered bg-white text-primary" id="withdrawalHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="withdrawalHistory">
+                        <!-- Withdrawal history will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="transactions" class="content-section" style="display: none;">
+                <h4>Your Transactions</h4>
+                <table class="table table-bordered bg-white text-primary">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionHistory">
+                        <!-- Transaction history will be injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <!-- Your existing scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <script>
-        // Toggle Sidebar
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('active');
         }
 
-        // Sidebar navigation
+        function showContent(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+            });
+        }
+
         document.querySelectorAll('.sidebar-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
-                
-                // Remove active class from all items
-                document.querySelectorAll('.sidebar-item').forEach(i => {
-                    i.classList.remove('active');
-                });
-                
-                // Add active class to clicked item
+                document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
                 item.classList.add('active');
-                
-                // Hide all content sections
-                document.querySelectorAll('.content-section').forEach(section => {
-                    section.style.display = 'none';
-                });
-                
-                // Show selected content section
-                const contentId = item.getAttribute('data-content') + '-content';
-                document.getElementById(contentId).style.display = 'block';
+                showContent(item.getAttribute('data-content'));
             });
         });
 
-        // Your existing scripts remain the same
+        async function fetchCryptoPrices() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,cardano,binancecoin,ripple,solana,polkadot,litecoin,chainlink,stellar,vechain,tron,monero,tezos,cosmos,algorand,uniswap,aave,dogecoin,shiba-inu&vs_currencies=usd');
+                const data = await response.json();
+                
+                const prices = Object.entries(data)
+                    .map(([name, price]) => {
+                        const displayName = name.charAt(0).toUpperCase() + name.slice(1);
+                        return `${displayName}: $${price.usd.toFixed(2)}`;
+                    }).join(' | ');
+                
+                document.getElementById('crypto-prices').textContent = prices;
+            } catch (error) {
+                console.error("Failed to fetch cryptocurrency prices:", error);
+            }
+        }
+
+        fetchCryptoPrices();
+        setInterval(fetchCryptoPrices, 300000);
+    </script>
+
+    <script>
+        let previousProfit = 0;
+    
+        async function fetchUserData() {
+            const token = localStorage.getItem('token');
+    
+            if (!token) {
+                alert("User not authenticated, please login again.");
+                window.location.href = '/login.html';
+                return;
+            }
+    
+            const response = await fetch('http://localhost:5000/api/users/me', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+    
+            if (response.ok) {
+                const user = await response.json();
+    
+                document.getElementById('userName').textContent = user.name;
+                document.getElementById('userEmail').textContent = user.email;
+                document.getElementById('balance').textContent = user.balance.toFixed(2);
+                document.getElementById('profits').textContent = user.profits.toFixed(2);
+    
+                if (user.profits > previousProfit) {
+                    alert(`Your profits have increased! New profit: $${user.profits.toFixed(2)}`);
+                }
+    
+                previousProfit = user.profits;
+    
+            } else if (response.status === 403) {
+                alert("Forbidden: Invalid token or session expired.");
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
+            } else {
+                alert('Failed to fetch user data');
+            }
+        }
+    
+        const socket = new WebSocket('ws://localhost:5000');
+    
+        socket.onopen = function () {
+            console.log('Connected to WebSocket server');
+        };
+    
+        socket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (data.type === 'profitUpdate') {
+                alert(`New Profit Update: $${data.profit}`);
+                fetchUserData();
+            }
+        };
+    
+        document.addEventListener('DOMContentLoaded', fetchUserData);
+    </script>
+
+    <script>
+        document.getElementById('depositForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+    
+            const amount = document.getElementById('amount').value;
+            const plan = document.getElementById('plan').value;
+            const walletAddress = document.getElementById('walletAddress').value;
+            const proof = document.getElementById('proof').files[0];
+    
+            const formData = new FormData();
+            formData.append('amount', amount);
+            formData.append('plan', plan);
+            formData.append('walletAddress', walletAddress);
+            formData.append('proofOfPayment', proof);
+    
+            const response = await fetch('/api/transactions/deposit', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+                body: formData,
+            });
+    
+            if (response.ok) {
+                alert('Deposit submitted successfully');
+                loadDepositHistory();
+            } else {
+                alert('Failed to submit deposit');
+            }
+        });
+
+        document.getElementById('withdrawForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+    
+            const amount = document.getElementById('withdrawAmount').value;
+            const address = document.getElementById('withdrawAddress').value;
+    
+            const response = await fetch('/api/transactions/withdraw', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount, address }),
+            });
+    
+            if (response.ok) {
+                alert('Withdrawal request submitted successfully');
+            } else {
+                alert('Failed to submit withdrawal request');
+            }
+        });
+
+        function copyWalletAddress() {
+            const walletAddress = document.getElementById('walletAddress').value;
+            navigator.clipboard.writeText(walletAddress).then(() => {
+                alert('Wallet address copied');
+            });
+        }
     </script>
 </body>
 </html>
