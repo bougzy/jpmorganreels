@@ -49,8 +49,7 @@ const userSchema = new mongoose.Schema({
     referralLink: { type: String }, // Add this field to store the referral link
     referredBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     referredUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    referralCount: { type: Number, default: 0 },
-    approved: { type: Boolean, default: false } 
+    referralCount: { type: Number, default: 0 }
    
 });
 
@@ -107,15 +106,6 @@ const authenticate = (req, res, next) => {
         next(); // Proceed to the next middleware or route handler
     });
 };
-
-// Middleware to verify if a user is approved
-const ensureApproved = async (req, res, next) => {
-    const user = await User.findById(req.user.id);
-    if (!user || !user.approved) {
-      return res.status(403).json({ message: 'User not approved' });
-    }
-    next();
-  };
 
 // File upload configuration
 const storage = multer.diskStorage({
