@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - JPMorganReels</title>
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet">
+  <style>
+    body {
+      background-color: #001f3f; /* Dark Blue */
+      color: #ffffff; /* White text */
+      font-family: Arial, sans-serif;
+    }
+    .header {
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .accordion-button {
+      background-color: #002b5c; /* Slightly lighter blue */
+      color: #ffffff;
+    }
+    .accordion-button:not(.collapsed) {
+      background-color: #0056b3; /* Button Blue */
+      color: #ffffff;
+    }
+    .accordion-body {
+      background-color: #003f7f;
+      color: #dcdcdc; /* Lighter Text */
+    }
+    footer {
+      background-color: #000000;
+      color: #dcdcdc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">JPMorganReels</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="blog.html">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="privacy.html">Privacy</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="career.html">Careers</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">FAQ</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- FAQ Header -->
+  <div class="header">
+    <h1>Frequently Asked Questions</h1>
+    <p class="lead">Find answers to common questions about JPMorganReels and our services.</p>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="container mb-5">
+    <div class="accordion" id="faqAccordion">
+      <!-- FAQ 1 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faqHeading1">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1">
+            What is JPMorganReels?
+          </button>
+        </h2>
+        <div id="faqCollapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            JPMorganReels is a premier platform that combines real estate and investment opportunities to help you grow your wealth while building a diverse property portfolio.
+          </div>
+        </div>
+      </div>
+      <!-- FAQ 2 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faqHeading2">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2">
+            How can I start investing?
+          </button>
+        </h2>
+        <div id="faqCollapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            To start investing, simply sign up for an account, verify your identity, and browse our investment opportunities. Once you've chosen a property, you can fund your investment directly through our platform.
+          </div>
+        </div>
+      </div>
+      <!-- FAQ 3 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faqHeading3">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3">
+            Is my investment safe?
+          </button>
+        </h2>
+        <div id="faqCollapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes, your investment is secured through our rigorous due diligence process, ensuring each property is thoroughly vetted before listing. Additionally, our transparent reporting keeps you informed every step of the way.
+          </div>
+        </div>
+      </div>
+      <!-- FAQ 4 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faqHeading4">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4">
+            Can I withdraw my investment?
+          </button>
+        </h2>
+        <div id="faqCollapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Yes, you can withdraw your investment after the lock-in period specified in the agreement. For more details, contact our support team or refer to the terms and conditions.
+          </div>
+        </div>
+      </div>
+      <!-- FAQ 5 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="faqHeading5">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse5">
+            How do I contact support?
+          </button>
+        </h2>
+        <div id="faqCollapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            You can reach our support team via the live chat feature on the website, or email us at support@jpmorganreels.com for assistance.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 mt-4">
+    <p>&copy; 2024 JPMorganReels. All Rights Reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
