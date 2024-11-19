@@ -33,6 +33,10 @@
       JPMorganreels &mdash; Free Bootstrap 5 Website Template by Untree.co
     </title>
     <style>
+
+    body {
+                background-color: #f8f9fa;
+            }
       .marquee-container {
             overflow: hidden;
             white-space: nowrap;
@@ -53,6 +57,53 @@
             from { transform: translateX(100%); }
             to { transform: translateX(-100%); }
         }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1), -4px -4px 10px rgba(255, 255, 255, 0.7);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2), -6px -6px 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .card-text {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .card-text strong {
+            color: #007bff;
+        }
+
+        .btn-invest {
+            background-color: #2b0abb;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .btn-invest:hover {
+            background-color: #2b0abb;
+        }
+
+        .text-highlight {
+            font-weight: 600;
+            color: #333;
+        }
+
     </style>
   </head>
   <body>
@@ -615,6 +666,7 @@
               </div>
             </div>
 
+           
             <div class="item">
               <div class="testimonial">
                 <img
@@ -699,6 +751,14 @@
         </div>
       </div>
     </div>
+
+     <!-- House section -->
+     <section>
+      <div class="container mt-4">
+        <h1 class="mb-4 text-center text-highlight">Buildings</h1>
+        <div id="buildingsContainer" class="row g-3"></div>
+    </div>
+     </section>
 
     <div class="section section-4" style="background: gray; color: white;">
       <div class="container">
@@ -924,7 +984,7 @@
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0">
+          <div class="col-sm-6 col-md-6 col-lg-4 mb-5 mb-lg-0 mt-3">
             <div class="h-100 person">
               <img
                 src="images/tara.jpeg"
@@ -1141,6 +1201,46 @@
   setInterval(fetchCryptoPrices, 60000); // Update every minute
 </script>
 
+<script>
+  const buildingsContainer = document.getElementById('buildingsContainer');
+
+  const fetchBuildings = async () => {
+      const response = await fetch('/api/buildings');
+      const buildings = await response.json();
+
+      buildingsContainer.innerHTML = '';
+      buildings.forEach(building => {
+          const card = document.createElement('div');
+          card.className = 'col-md-4';
+          card.innerHTML = `
+              <div class="card">
+                  <img src="${building.image}" class="card-img-top" alt="${building.name}" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                      <h5 class="card-title">${building.name}</h5>
+                      <p class="card-text">${building.description}</p>
+                      <div class="row">
+                          <div class="col-6">
+                              <p class="card-text"><strong>Location:</strong> ${building.location}</p>
+                              <p class="card-text"><strong>ROI:</strong> ${building.returnOnInvestment}%</p>
+                          </div>
+                          <div class="col-6">
+                              <p class="card-text"><strong>Investment Price:</strong> $${building.investmentPrice}</p>
+                              <p class="card-text"><strong>Rooms:</strong> ${building.numberOfRooms}</p>
+                          </div>
+                          <div class="col-12">
+                              <p class="card-text"><strong>Bathrooms:</strong> ${building.numberOfBathrooms}</p>
+                          </div>
+                      </div>
+                      <button class="btn btn-invest w-100 mt-3">Invest Now</button>
+                  </div>
+              </div>
+          `;
+          buildingsContainer.appendChild(card);
+      });
+  };
+
+  fetchBuildings();
+</script>
 
   </body>
 </html>

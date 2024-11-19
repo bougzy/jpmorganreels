@@ -18,8 +18,11 @@ const io = socketIo(server);
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/uploads', express.static('uploads'));
-app.use(express.static('public'));  
+app.use(express.json());
+// app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use(express.static('public'));  
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 // MongoDB connection
@@ -81,6 +84,22 @@ const planSchema = new mongoose.Schema({
 const Plan = mongoose.model('Plan', planSchema);
 
 
+// Building Schema and Model
+const buildingSchema = new mongoose.Schema({
+    name: String,
+    description: String,
+    location: String,
+    investmentPrice: Number,
+    returnOnInvestment: Number,
+    numberOfRooms: Number,
+    numberOfBathrooms: Number,
+    image: String,
+});
+
+const Building = mongoose.model('Building', buildingSchema);
+
+
+
 
 // Middleware for verifying JWT tokens
 const authenticate = (req, res, next) => {
@@ -117,13 +136,24 @@ const ensureApproved = async (req, res, next) => {
     next();
   };
 
-// File upload configuration
+// // File upload configuration
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, Date.now() + path.extname(file.originalname));
+//     },
+// });
+
+
+// Multer Storage Configuration
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
+        cb(null, `${Date.now()}-${file.originalname}`);
     },
 });
 
@@ -203,6 +233,119 @@ app.post('/api/users/login', async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, 'aHSCWvC3Ol', { expiresIn: '1h' });
     res.json({ token });
+});
+
+
+// Get All Buildings
+app.get('/api/buildings', async (req, res) => {
+    try {
+        const buildings = await Building.find();
+        res.json(buildings);
+    } catch (error) {
+        console.error('Error fetching buildings:', error);
+        res.status(500).json({ message: 'Error fetching buildings' });
+    }
+});
+
+
+// Get a Single Building by ID
+app.get('/api/buildings/:id', async (req, res) => {
+    try {
+        const building = await Building.findById(req.params.id);
+        if (!building) {
+            return res.status(404).json({ message: 'Building not found' });
+        }
+        res.json(building);
+    } catch (error) {
+        console.error('Error fetching building:', error);
+        res.status(500).json({ message: 'Error fetching building' });
+    }
+});
+
+// Create a New Building
+app.post('/api/buildings', upload.single('image'), async (req, res) => {
+    try {
+        const {
+            name,
+            description,
+            location,
+            investmentPrice,
+            returnOnInvestment,
+            numberOfRooms,
+            numberOfBathrooms,
+        } = req.body;
+
+        const building = new Building({
+            name,
+            description,
+            location,
+            investmentPrice,
+            returnOnInvestment,
+            numberOfRooms,
+            numberOfBathrooms,
+            image: req.file ? `/uploads/${req.file.filename}` : '',
+        });
+
+        await building.save();
+        res.status(201).json({ message: 'Building created successfully', building });
+    } catch (error) {
+        console.error('Error creating building:', error);
+        res.status(500).json({ message: 'Error creating building' });
+    }
+});
+
+// Update a Building
+app.put('/api/buildings/:id', upload.single('image'), async (req, res) => {
+    try {
+        const {
+            name,
+            description,
+            location,
+            investmentPrice,
+            returnOnInvestment,
+            numberOfRooms,
+            numberOfBathrooms,
+        } = req.body;
+
+        const building = await Building.findById(req.params.id);
+        if (!building) {
+            return res.status(404).json({ message: 'Building not found' });
+        }
+
+        building.name = name || building.name;
+        building.description = description || building.description;
+        building.location = location || building.location;
+        building.investmentPrice = investmentPrice || building.investmentPrice;
+        building.returnOnInvestment = returnOnInvestment || building.returnOnInvestment;
+        building.numberOfRooms = numberOfRooms || building.numberOfRooms;
+        building.numberOfBathrooms = numberOfBathrooms || building.numberOfBathrooms;
+
+        if (req.file) {
+            building.image = `/uploads/${req.file.filename}`;
+        }
+
+        await building.save();
+        res.json({ message: 'Building updated successfully', building });
+    } catch (error) {
+        console.error('Error updating building:', error);
+        res.status(500).json({ message: 'Error updating building' });
+    }
+});
+
+// Delete a Building
+app.delete('/api/buildings/:id', async (req, res) => {
+    try {
+        const building = await Building.findById(req.params.id);
+        if (!building) {
+            return res.status(404).json({ message: 'Building not found' });
+        }
+
+        await building.deleteOne();
+        res.json({ message: 'Building deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting building:', error);
+        res.status(500).json({ message: 'Error deleting building' });
+    }
 });
 
 // Get user details, including profits
