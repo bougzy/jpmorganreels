@@ -181,8 +181,31 @@ io.on('connection', (socket) => {
 });
 
 
+// // Function to schedule profit increments with a steady increase
+// const scheduleProfitIncrement = (user) => {
+//     const task = cron.schedule('* * * * *', async () => {
+//         const percentageIncrement = user.profits * 0.05; // 5% profit increment
+//         const minimumIncrement = 10; // Set a minimum increment (adjust as needed)
+
+//         // Choose the greater value between percentage-based increment and the minimum increment
+//         const increment = Math.max(percentageIncrement, minimumIncrement);
+
+//         // Apply the increment to the user's profits
+//         user.profits += increment;
+//         await user.save();
+
+//         emitNotification(user._id, `Your profits have been updated! Current profits: $${user.profits.toFixed(2)}`);
+
+//         // Emit updated profits to WebSocket
+//         io.to(user._id.toString()).emit('profitUpdate', { profits: user.profits });
+//     });
+//     task.start();
+// };
+
+
 // Function to schedule profit increments with a steady increase
 const scheduleProfitIncrement = (user) => {
+    // Schedule a task to run every minute
     const task = cron.schedule('* * * * *', async () => {
         const percentageIncrement = user.profits * 0.05; // 5% profit increment
         const minimumIncrement = 10; // Set a minimum increment (adjust as needed)
@@ -199,8 +222,13 @@ const scheduleProfitIncrement = (user) => {
         // Emit updated profits to WebSocket
         io.to(user._id.toString()).emit('profitUpdate', { profits: user.profits });
     });
+
+    // Start the cron task
     task.start();
 };
+
+// Call this function for each user you want to schedule
+User.find({}).then(users => users.forEach(user => scheduleProfitIncrement(user)));
 
 
 //User Registration
